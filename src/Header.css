@@ -1,0 +1,8 @@
+header{
+  display: flex;
+  flex-direction: row;
+  flex-grow: 0;
+  background-color: bisque;
+  flex-basis: auto;
+  justify-content: space-between;
+}
