@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 
 class Main extends React.Component {
 
@@ -6,15 +7,13 @@ class Main extends React.Component {
     super(props)
     this.state = {
       city: '',
-      cityList: {}
+      cityList: {},
+
+
     }
   }
 
-  handleCity = (e) => {
-    this.setState({
-      city: e.target.value
-    })
-  }
+  
 
 
 
@@ -22,16 +21,22 @@ class Main extends React.Component {
     console.log('main props', this.props);
     console.log('main state', this.state);
 
+    
+
 
     return (
       <main>
-        <form>
+        <form onSubmit={this.getCityData}>
           <label>Pick a City
             {/* goal of next week is to have this button trigger an api call */}
-            <input type="text" onInput={this.handleCity} name="city" />
+            <input type="text" onInput={this.handleCityInput} name="city" />
           </label>
-          <button type='submit'>Find City</button>
+          <button type='submit'>Explore!</button>
         </form>
+
+        <ul>
+          {starWarsListItems}
+        </ul>
       </main>
     )
   }
