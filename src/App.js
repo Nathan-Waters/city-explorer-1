@@ -10,13 +10,9 @@ class App extends React.Component {
     super(props)
     this.state = {
       cityDemands: null,
-      cityList: {}
-
+      cityList: {},
       // variable to store data
-      starWarsData:[],
       cityData: {}
-
-
     }
   }
 
@@ -26,30 +22,19 @@ class App extends React.Component {
     })
   }
 
-// two keywords for axios
-  handleStarWars = async(e) => {
-    //get the data from the API
+  getCityData = async (e) => {
+        //get the data from the API
     // axios is a lightweight way to call method doing heavy lifting of api call
     e.preventDefault();
-    let starWarsCharacters = await axios.get('https://swapi.dev/api/people/?page=1');
-    console.log(starWarsCharacters);
+    let cityData = await axios.get(`https://us1.locationiq.com/v1/search.php?key=${YOUR_ACCESS_TOKEN}&q=${SEARCH_STRING}&format=json`);
+    console.log(cityData[0]);
 
     // save that data into state to use and t re-render page with the state change
     this.setState({
-      starWarsData: starWarsCharacters.data.results
+      cityData: cityData.data.results
       // add in data on call when using axios
     });
   }
-
-
-
-  getCityData = async(e) => {
-    e.preventDefault();
-    let cityData = await axios.get(https://us1.locationiq.com/v1/search.php?key={YOUR_ACCESS_TOKEN}&q=SEARCH_STRING&format=json);
-    console.log(cityData[0]);
-  }
-
-
 
   render() {
     console.log('app state', this.state);
@@ -59,7 +44,7 @@ class App extends React.Component {
         <Header />
 
         <Main
-          cityList={this.state.cityList}
+          cityList={this.state.cityData}
         />
 
         <Footer />
