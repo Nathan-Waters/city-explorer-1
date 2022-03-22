@@ -28,15 +28,20 @@ Axios
  -->
 
 ## Credit and Collaborations
+<!-- Give credit (and a link) to other people or resources that helped you build this application. -->
 Whiteboard Partners:
 Wb1: Mish Salazar
-Wb2:
-Wb3:
-Wb4:
-Wb5:
-<!-- Give credit (and a link) to other people or resources that helped you build this application. -->
+![Data flow for monday and supporting functions](/src/img/whiteboard1.png "Monday Whiteboard")
 
-![Alt text]('/articles/alligator/boo.svg "a title"')
+Wb2:
+
+Wb3:
+
+Wb4:
+
+Wb5:
+
+---
 
 Name of feature: Set up your React repository & API keys.
 
@@ -44,6 +49,18 @@ Estimate of time needed to complete: 1 hr
 
 Start time: 17:00
 
-Finish time: _____
+Finish time: 18:14
 
-Actual time needed to complete: _____
+Actual time needed to complete: 01:14
+
+---
+
+Name of feature: Locations
+
+Estimate of time needed to complete: 0:30 min
+
+Start time: 17:00
+
+Finish time: 18:14
+
+Actual time needed to complete: 01:14
