@@ -11,15 +11,42 @@ class App extends React.Component {
     this.state = {
       cityDemands: null,
       cityList: {}
+
+      // variable to store data
+      starWarsData:[],
+      cityData: {}
+
+
     }
   }
 
-
-  // event handler for eventual thing
-  handleSelectedCity = (city) => {
+  handleCityInput = (e) => {
     this.setState({
-      cityDemands: "nice"
+      city: e.target.value
     })
+  }
+
+// two keywords for axios
+  handleStarWars = async(e) => {
+    //get the data from the API
+    // axios is a lightweight way to call method doing heavy lifting of api call
+    e.preventDefault();
+    let starWarsCharacters = await axios.get('https://swapi.dev/api/people/?page=1');
+    console.log(starWarsCharacters);
+
+    // save that data into state to use and t re-render page with the state change
+    this.setState({
+      starWarsData: starWarsCharacters.data.results
+      // add in data on call when using axios
+    });
+  }
+
+
+
+  getCityData = async(e) => {
+    e.preventDefault();
+    let cityData = await axios.get(https://us1.locationiq.com/v1/search.php?key={YOUR_ACCESS_TOKEN}&q=SEARCH_STRING&format=json);
+    console.log(cityData[0]);
   }
 
 
