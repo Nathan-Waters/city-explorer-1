@@ -9,49 +9,32 @@ class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      cityDemands: null,
-      cityList: {},
       // variable to store data
       cityData: {}
     }
   }
 
-  handleCityInput = (e) => {
+  // EVENT LISTENER TO HAVE STATE CHANGE OF CITY DATA ON APP.JS AND THE LISTENER WILL LIVE IN MAIN
+  handleCityData = (e) => {
+    console.log('app city data coming in', e.target.value);
     this.setState({
-      city: e.target.value
+      cityData: e.target.value
     })
   }
 
-  getCityData = async (e) => {
-        //get the data from the API
-    // axios is a lightweight way to call method doing heavy lifting of api call
-    e.preventDefault();
-    let cityData = await axios.get(`https://us1.locationiq.com/v1/search.php?key=${YOUR_ACCESS_TOKEN}&q=${SEARCH_STRING}&format=json`);
-    console.log(cityData[0]);
-
-    // save that data into state to use and t re-render page with the state change
-    this.setState({
-      cityData: cityData.data.results
-      // add in data on call when using axios
-    });
-  }
-
   render() {
-    console.log('app state', this.state);
-
+    // console.log('app state', this.state);
+    // console.log('app props', this.props);
     return (
       <>
         <Header />
 
         <Main
-          cityList={this.state.cityData}
+          handleCityData={this.handleCityData}
         />
-
         <Footer />
-
       </>
     )
   }
 }
-
 export default App;
