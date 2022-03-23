@@ -1,5 +1,12 @@
 import React from 'react';
 import axios from 'axios';
+import Card from 'react-bootstrap/Card';
+import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import CityCard from './CityCard';
+import './Main.css';
+
 
 class Main extends React.Component {
 
@@ -7,36 +14,89 @@ class Main extends React.Component {
     super(props)
     this.state = {
       city: '',
-      cityList: {},
-
-
+      cityData: {},
+      error: false,
+      errorMessage: ``,
+      cityMap: [],
+      displayMap: false
     }
   }
 
-  
+  getMainCityData = async (e) => {
+    //get the data from the API
+    // axios is a lightweight way to call method doing heavy lifting of api call
+    e.preventDefault();
+    try {
+      let cityData = await axios.get(`https://us1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_LOCATIONIQ_API_KEY}&q=${this.state.city}&format=json`);
+      // console.log(cityData.data[0]);
+      this.setState({
+        cityData: cityData.data[0],
+        displayMap: true
+      });
 
+    } catch (error) {
+      // console.log('error.response', error.response);
+      this.setState({
+        error: true,
+        errorMessage: `An error occurred: ${error.response.status}`
+      })
+    }
+  }
+
+
+  handleCityInput = (e) => {
+    this.setState({
+      city: e.target.value
+    });
+  }
 
 
   render() {
-    console.log('main props', this.props);
-    console.log('main state', this.state);
-
-    
-
-
+    // console.log('city data', this.state.cityData);
+    // console.log('city map data', this.state.cityMap);
     return (
       <main>
-        <form onSubmit={this.getCityData}>
-          <label>Pick a City
-            {/* goal of next week is to have this button trigger an api call */}
-            <input type="text" onInput={this.handleCityInput} name="city" />
+
+        <form onSubmit={this.getMainCityData}>
+          <label>Pick a City:
+
           </label>
+            <input
+              type="text"
+              onInput={this.handleCityInput}
+              name="city"
+            />
           <button type='submit'>Explore!</button>
         </form>
 
-        <ul>
-          {starWarsListItems}
-        </ul>
+        {this.state.error
+          ?
+          <Container>
+            <Col>
+              <Row xs={1} sm={1} md={1} lg={1} xl={1}></Row>
+              <Card className="errorCard h-100" style={{ width: '18rem' }}>
+                <Card.Body>
+                  <Card.Title>{this.state.errorMessage}</Card.Title>
+                  <Card.Text>
+                    Sorry, but an error has occurred.
+                  </Card.Text>
+                </Card.Body>
+              </Card>
+            </Col>
+          </Container>
+          :
+          <Container>
+            <Row xs={1} sm={1} md={1} lg={1} xl={1}></Row>
+            <Col>
+           
+                  <CityCard
+                  cityData={this.state.cityData}
+                  displayMap={this.state.displayMap}
+                  />
+                  
+            </Col>
+          </Container>
+        }
       </main>
     )
   }
