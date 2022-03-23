@@ -4,6 +4,8 @@ import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
+import CityCard from './CityCard';
+import './Main.css';
 
 
 class Main extends React.Component {
@@ -15,7 +17,8 @@ class Main extends React.Component {
       cityData: {},
       error: false,
       errorMessage: ``,
-      showCityData: false
+      cityMap: [],
+      displayMap: false
     }
   }
 
@@ -25,15 +28,14 @@ class Main extends React.Component {
     e.preventDefault();
     try {
       let cityData = await axios.get(`https://us1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_LOCATIONIQ_API_KEY}&q=${this.state.city}&format=json`);
-      console.log(cityData.data[0]);
-      // this.props.handleCityData(mainCityData.data.display_name[0]);
-      // save that data into state to use and t re-render page with the state change
+      // console.log(cityData.data[0]);
       this.setState({
         cityData: cityData.data[0],
-        showCityData: true
+        displayMap: true
       });
+
     } catch (error) {
-      console.log('error.response', error.response);
+      // console.log('error.response', error.response);
       this.setState({
         error: true,
         errorMessage: `An error occurred: ${error.response.status}`
@@ -45,35 +47,25 @@ class Main extends React.Component {
   handleCityInput = (e) => {
     this.setState({
       city: e.target.value
-    })
+    });
   }
 
 
   render() {
-    console.log('city data', this.state.cityData);
-
-    // for conditional rendering after data coming in correctly
-    // let cityResult = this.state.receivedCityData.map(city, index) => {
-    //   console.log(index);
-    //   return {<
-
-    //     />}
-    // };
-    // console.log('main props', this.props);
-    // console.log('main state', this.state.receivedCityData);
-
+    // console.log('city data', this.state.cityData);
+    // console.log('city map data', this.state.cityMap);
     return (
       <main>
 
         <form onSubmit={this.getMainCityData}>
-          <label>Pick a City
+          <label>Pick a City:
+
+          </label>
             <input
               type="text"
               onInput={this.handleCityInput}
               name="city"
             />
-
-          </label>
           <button type='submit'>Explore!</button>
         </form>
 
@@ -81,7 +73,7 @@ class Main extends React.Component {
           ?
           <Container>
             <Col>
-              <Row xs={1} sm={1} md={2} lg={3} xl={4}></Row>
+              <Row xs={1} sm={1} md={1} lg={1} xl={1}></Row>
               <Card className="errorCard h-100" style={{ width: '18rem' }}>
                 <Card.Body>
                   <Card.Title>{this.state.errorMessage}</Card.Title>
@@ -94,16 +86,14 @@ class Main extends React.Component {
           </Container>
           :
           <Container>
-            <Row xs={1} sm={1} md={2} lg={3} xl={4}></Row>
+            <Row xs={1} sm={1} md={1} lg={1} xl={1}></Row>
             <Col>
-              <Card style={{ width: '18rem' }}>
-                <Card.Body>
-                  <Card.Title>{this.state.cityData.display_name}</Card.Title>
-                  <Card.Subtitle>
-                    {this.state.cityData.lat} , {this.state.cityData.lon}
-                  </Card.Subtitle>
-                </Card.Body>
-              </Card>
+           
+                  <CityCard
+                  cityData={this.state.cityData}
+                  displayMap={this.state.displayMap}
+                  />
+                  
             </Col>
           </Container>
         }
